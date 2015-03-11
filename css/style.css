@@ -6541,6 +6541,9 @@ body {
   line-height: 1.1;
   color: white;
 }
+.page {
+  height: 100%;
+}
 .page .page-title {
   position: fixed;
   top: 0;
@@ -6563,7 +6566,27 @@ body {
   line-height: 40px;
 }
 .page .page-inner {
-  margin-top: 50px;
+  padding: 50px 0;
+  height: 100%;
+}
+.page .page-footer {
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #147e1e;
+  color: white;
+  border-top: 1px solid white;
+  text-align: center;
+}
+.page .page-footer .footer-button {
+  font-size: 24px;
+  line-height: 50px;
+  padding: 0 10px;
+  display: inline;
+}
+.page .page-footer .footer-button a {
+  color: white;
 }
 #app {
   height: 100%;
@@ -6617,4 +6640,8 @@ body {
   border-top: 1px solid white;
   position: absolute;
   bottom: 0;
+}
+#map {
+  height: 100%;
+  width: 100%;
 }

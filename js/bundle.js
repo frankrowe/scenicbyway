@@ -40,15 +40,50 @@ var Header = React.createClass({displayName: "Header",
   }
 })
 
+var LocateButton = React.createClass({displayName: "LocateButton",
+  render: function() {
+    return (
+      React.createElement("div", {className: "footer-button"}, 
+        React.createElement("span", {onClick: this.props.locate}, 
+          React.createElement("i", {className: "fa fa-location-arrow"})
+        )
+      )
+    )
+  }
+})
+
+var Footer = React.createClass({displayName: "Footer",
+  render: function() {
+    var locateButton
+    if (this.props.locate) {
+      locateButton = React.createElement(LocateButton, {locate: this.props.locate})
+    }
+    return (
+      React.createElement("div", {className: "page-footer"}, 
+        React.createElement("div", {className: "footer-button"}, 
+          React.createElement(Link, {to: "siteList", params: {categoryName: this.props.category}}, React.createElement("i", {className: "fa fa-list"}))
+        ), 
+        React.createElement("div", {className: "footer-button"}, 
+          React.createElement(Link, {to: "siteMap", params: {categoryName: this.props.category}}, React.createElement("i", {className: "fa fa-map-marker"}))
+        ), 
+        locateButton
+      )
+    )
+  }
+})
+
 var Site = React.createClass({displayName: "Site",
   mixins: [Router.State],
+  back: function() {
+    window.history.back()
+  },
   render: function() {
     var id = +this.getParams().siteID
     var site =  this.props.data[id]
     return (
       React.createElement("div", {className: "site-details page"}, 
         React.createElement("div", {className: "page-title"}, 
-          React.createElement(Link, {to: "categoryName", params: {categoryName: site.category}}, React.createElement("span", {className: "home-button"}, React.createElement("i", {className: "fa fa-arrow-left"}))), 
+          React.createElement("span", {className: "home-button", onClick: this.back}, React.createElement("i", {className: "fa fa-arrow-left"})), 
           React.createElement("h3", null, "Site Details")
         ), 
         React.createElement("div", {className: "page-inner"}, 
@@ -60,7 +95,7 @@ var Site = React.createClass({displayName: "Site",
   }
 })
 
-var Category = React.createClass({displayName: "Category",
+var SiteList = React.createClass({displayName: "SiteList",
   mixins: [Router.State],
   render: function() {
     var self = this
@@ -79,7 +114,69 @@ var Category = React.createClass({displayName: "Category",
         ), 
         React.createElement("div", {className: "page-inner"}, 
           React.createElement("ul", {className: "list-group"}, rows)
-        )
+        ), 
+        React.createElement(Footer, {category: self.getParams().categoryName})
+      )
+    )
+  }
+})
+
+var Popup = React.createClass({displayName: "Popup",
+  render: function() {
+    var p = {siteID: this.props.site.idx}
+    //return <div><p>{this.props.site.name}</p><p><Link to="siteID" params={p}>More Information</Link></p></div>
+    return React.createElement("div", null, React.createElement("p", null, this.props.site.name), React.createElement("p", null, React.createElement("a", {href: '/scenicbyway/#/site/' + this.props.site.idx}, "More Information")))
+  }
+})
+
+var SiteMap = React.createClass({displayName: "SiteMap",
+  mixins: [Router.State],
+  componentDidMount: function() {
+    this.createMap()
+  },
+  createMap: function() {
+    var self = this
+    this.map = L.map('map').setView([38, -76], 8)
+    L.tileLayer('http://{s}.tiles.mapbox.com/v3/fsrw.lecn9mia/{z}/{x}/{y}.png', {
+      maxZoom: 18
+    }).addTo(this.map)
+    this.siteLayer = L.featureGroup()
+    this.sites.forEach(function(site) {
+      if (site.location) {
+        var coords = site.location.split(',').map(Number)
+        var marker = L.marker(coords)
+        var p = {siteID: site.idx}
+        marker.bindPopup(React.renderToString(React.createElement(Popup, {site: site})))
+        self.siteLayer.addLayer(marker)
+      }
+    })
+    this.siteLayer.addTo(this.map)
+    this.map.fitBounds(this.siteLayer.getBounds())
+    this.map.invalidateSize()
+  },
+  locate: function() {
+    this.map.locate({setView: true, maxZoom: 16})
+  },
+  render: function() {
+    var self = this
+    this.map = {}
+    this.sites = this.props.data.map(function(site, idx) {
+      if (site.category === self.getParams().categoryName) {
+        site.idx = idx
+        return site
+      }
+    })
+    this.sites = _.compact(this.sites)
+    return (
+      React.createElement("div", {className: "category page"}, 
+        React.createElement("div", {className: "page-title"}, 
+          React.createElement(Link, {to: "/"}, React.createElement("span", {className: "home-button"}, React.createElement("i", {className: "fa fa-home"}))), 
+          React.createElement("h3", null, this.getParams().categoryName)
+        ), 
+        React.createElement("div", {className: "page-inner"}, 
+          React.createElement("div", {id: "map", ref: "mapdiv"})
+        ), 
+        React.createElement(Footer, {category: self.getParams().categoryName, locate: this.locate})
       )
     )
   }
@@ -89,7 +186,7 @@ var CategoryList = React.createClass({displayName: "CategoryList",
   render: function() {
     var rows = this.props.categories.map(function(category) {
       var p = {categoryName: category}
-      return React.createElement(Link, {to: "categoryName", params: p, key: category}, React.createElement("li", {className: "list-group-item"}, category))
+      return React.createElement(Link, {to: "siteMap", params: p, key: category}, React.createElement("li", {className: "list-group-item"}, category))
     })
     return React.createElement("div", {className: "category-list"}, React.createElement("ul", {className: "list-group"}, rows))
   }
@@ -107,7 +204,6 @@ var Home = React.createClass({displayName: "Home",
   }
 })
 
-
 var App = React.createClass({displayName: "App",
   render: function() {
     return (
@@ -119,11 +215,12 @@ var App = React.createClass({displayName: "App",
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: App}, 
     React.createElement(Route, {name: "home", handler: Home}), 
-    React.createElement(Route, {name: "category", handler: Category}, 
-      React.createElement(Route, {name: "categoryName", path: ":categoryName", handler: Category})
+    React.createElement(Route, {name: "category", handler: App}, 
+      React.createElement(Route, {name: "siteMap", path: "category/map/:categoryName", handler: SiteMap}), 
+      React.createElement(Route, {name: "siteList", path: "category/list/:categoryName", handler: SiteList})
     ), 
     React.createElement(Route, {name: "site", handler: Site}, 
-      React.createElement(Route, {name: "siteID", path: ":siteID", handler: Category})
+      React.createElement(Route, {name: "siteID", path: ":siteID", handler: Site})
     ), 
     React.createElement(DefaultRoute, {handler: Home})
   )
