@@ -6637,8 +6637,9 @@ body {
   width: 100%;
   padding: 10px;
   text-align: center;
-  color: #333;
-  background: rgba(255, 253, 227, 0.8);
+  color: #fff;
+  /*background: fadeout(#fffde3, 20%);*/
+  background: rgba(20, 126, 30, 0.8);
   border-bottom: 1px solid white;
 }
 .header h1 {

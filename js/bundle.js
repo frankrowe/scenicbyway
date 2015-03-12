@@ -419,7 +419,7 @@ var LocateButton = React.createClass({displayName: "LocateButton",
       )
     )
   }
-})
+})    
 
 var Footer = React.createClass({displayName: "Footer",
   render: function() {
