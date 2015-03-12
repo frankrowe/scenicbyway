@@ -10,20 +10,21 @@ var React = require('react')
   , Link = Router.Link
   , RouteHandler = Router.RouteHandler
   , _ = require('lodash')
+  , converter = new Showdown.converter()
 
 React.initializeTouchEvents(true)
 
 var key = '1AS60Zm5ytMoOI3AhvR0dcOF-G_3j2lpZR7VRBAzfBgE'
 
-// var sheet = Tabletop.init({
-//   key: key,
-//   callback: init,
-//   simpleSheet: true
-// })
-
-var data = [{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #1","category":"Maryland Historical Trust","location":"38,-76","rowNumber":1},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #2","category":"Maryland Historical Trust","location":"38.1,-76","rowNumber":2},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #3","category":"Maryland Historical Trust","location":"38.2,-76.3","rowNumber":3},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #4","category":"Maryland Historical Trust","location":"38.3,-76","rowNumber":4},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #5","category":"Maryland Historical Trust","location":"38.4,-76","rowNumber":5},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #6","category":"Maryland Historical Trust","location":"38.5,-76","rowNumber":6},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #7","category":"Maryland Historical Trust","location":"38.6,-76","rowNumber":7},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #8","category":"Maryland Historical Trust","location":"38.7,-76","rowNumber":8},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #9","category":"Maryland Historical Trust","location":"38.8,-76","rowNumber":9},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #10","category":"Points of Interest","location":"38,-76","rowNumber":10},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #11","category":"Public Water Access","location":"38,-76","rowNumber":11},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #12","category":"Hiker and Biker Trails","location":"38,-76","rowNumber":12},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #13","category":"Greenways","location":"38,-76","rowNumber":13},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #1","category":"Water Trails","location":"38,-76","rowNumber":14}]
+var sheet = Tabletop.init({
+  key: key,
+  callback: init,
+  simpleSheet: true
+})
+var data = [{"name":"Old Salisbury City Fire Hall Headquarters","category":"Maryland Historical Trust","streetaddress1":"S Division St located across from public library","streetaddress2":"","city":"Salisbury","county":"Wicomico","state":"MD","zip":"21801","location":"38.364276119491755,-75.60018002986908","description":"","descriptionlong":"Originally known as Firehouse #1 was built at cost in 1927 for $50,000, Building of 2 floors with basement. The first floor housed the equipment, the second floor housed the volunteers and chief’s quarters and basement used to dry fire hoses. The building is neoclassical four-bay built with brick and concrete. Parapet wall encircles the roof with a decorative crest featuring the capital letter S. The roof shingles were green tiles.","dateofsite":"1927","nationalregister":"no","mdinventory":"no","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://www.onesalisbury.com/uploads/3/7/6/3/3763176/9893823_orig.jpg","datasource":"“at the crossroads” paul tourart book page 589","contactname":"Lower eastern shore heritage area council","contactemail":"Leshc1@aol.com","contactphone":"410-677-4706","rowNumber":1},{"name":"Site #2","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.1,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":2},{"name":"Site #3","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.2,-76.3","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":3},{"name":"Site #4","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.3,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":4},{"name":"Site #5","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.4,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":5},{"name":"Site #6","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.5,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":6},{"name":"Site #7","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.6,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":7},{"name":"Site #8","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.7,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":8},{"name":"Site #9","category":"Maryland Historical Trust","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38.8,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":9},{"name":"Site #10","category":"Points of Interest","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":10},{"name":"Site #11","category":"Public Water Access","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":11},{"name":"Site #12","category":"Hiker and Biker Trails","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":12},{"name":"Site #13","category":"Greenways","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":13},{"name":"Site #1","category":"Water Trails","streetaddress1":"","streetaddress2":"","city":"","county":"","state":"","zip":"","location":"38,-76","description":"","descriptionlong":"","dateofsite":"","nationalregister":"","mdinventory":"","inhistoricdistrict":"","website":"","categoryseconday":"","additionalinformation":"","photo":"http://apps.esrgc.org/scenicbyway/img/300.gif","datasource":"","contactname":"","contactemail":"","contactphone":"","rowNumber":14}]
 
 function init(data, tabletop) {
+  //console.log(JSON.stringify(data))
   Router.run(routes, function (Handler) {
     React.render(<Handler data={data}/>, document.getElementById('app'))
   })
@@ -94,14 +95,33 @@ var Site = React.createClass({
     this.site =  this.props.data[id]
     var p = {categoryName: this.site.category}
     return (
-      <div className="site-details page">
+      <div className="page">
         <div className="page-title">
           <Link to="siteMap" params={p} onClick={this.back}><span className="home-button"><i className="fa fa-arrow-left"></i></span></Link>
           <h3>Site Details</h3>
         </div>
         <div className="page-inner">
-          <p>Site Name: {this.site.name}</p>
-          <img className="img-responsive" src={this.site.image} />
+          <div className="site-details">
+            <h4 className="site-name">{this.site.name}</h4>
+            <img className="img-responsive site-img" src={this.site.photo} />
+            <span dangerouslySetInnerHTML={{__html: converter.makeHtml(this.site.descriptionlong)}} />
+            <p><strong>Date</strong></p>
+            <p>{this.site.dateofsite}</p>
+            <p><strong>Address</strong></p>
+            <p>
+              <address>
+              {this.site.streetaddress1}<br />
+              {this.site.streetaddress2 ? this.site.streetaddress2 + '<br />' : ''}
+              {this.site.city}, {this.site.state} {this.site.zip}<br />
+              </address>
+            </p>
+            <p><strong>Contact</strong></p>
+            <p>
+              {this.site.contactname}<br />
+              {this.site.contactemail}<br />
+              {this.site.contactphone}<br />
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -152,7 +172,7 @@ var SiteMap = React.createClass({
         var marker = L.marker(coords)
         var p = {siteID: site.idx}
         var a = self.makeHref('siteID', p)
-        var popup = React.renderToString(<div><p>{site.name}</p><p><a href={a}>More Information</a></p></div>)
+        var popup = React.renderToString(<div className="popup"><p>{site.name}</p><p><img src={site.photo} /></p><p><a href={a}>More Information</a></p></div>)
         marker.bindPopup(popup)
         //marker.bindPopup(React.renderToString(<div><p>{site.name}</p><p><Link to="siteID" params={p}>More Information</Link></p></div>))
         self.siteLayer.addLayer(marker)
@@ -234,4 +254,4 @@ var routes = (
   </Route>
 )
 
-init(data, null)
+//init(data, null)
