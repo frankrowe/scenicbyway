@@ -44,7 +44,7 @@ var LocateButton = React.createClass({displayName: "LocateButton",
   render: function() {
     return (
       React.createElement("div", {className: "footer-button"}, 
-        React.createElement("span", {onClick: this.props.locate}, 
+        React.createElement("span", {onClick: this.props.locate, onTouchEnd: this.props.locate}, 
           React.createElement("i", {className: "fa fa-location-arrow"})
         )
       )
@@ -84,7 +84,7 @@ var Site = React.createClass({displayName: "Site",
     return (
       React.createElement("div", {className: "site-details page"}, 
         React.createElement("div", {className: "page-title"}, 
-          React.createElement("span", {className: "home-button", onClick: this.back}, React.createElement("i", {className: "fa fa-arrow-left"})), 
+          React.createElement("span", {className: "home-button", onClick: this.back, onTouchEnd: this.back}, React.createElement("i", {className: "fa fa-arrow-left"})), 
           React.createElement("h3", null, "Site Details")
         ), 
         React.createElement("div", {className: "page-inner"}, 

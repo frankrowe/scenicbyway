@@ -43,7 +43,7 @@ var LocateButton = React.createClass({
   render: function() {
     return (
       <div className="footer-button">
-        <span onClick={this.props.locate}>
+        <span onClick={this.props.locate} onTouchEnd={this.props.locate}>
           <i className="fa fa-location-arrow"></i>
         </span>
       </div>
@@ -83,7 +83,7 @@ var Site = React.createClass({
     return (
       <div className="site-details page">
         <div className="page-title">
-          <span className="home-button" onClick={this.back}><i className="fa fa-arrow-left"></i></span>
+          <span className="home-button" onClick={this.back} onTouchEnd={this.back}><i className="fa fa-arrow-left"></i></span>
           <h3>Site Details</h3>
         </div>
         <div className="page-inner">
