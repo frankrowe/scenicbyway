@@ -72,8 +72,7 @@ var Footer = React.createClass({
 })
 
 var Site = React.createClass({
-  mixins: [Router.State],
-  mixins: [Navigation],
+  mixins: [Router.State, Router.Navigation],
   back: function() {
     this.goBack()
     //window.history.back()
