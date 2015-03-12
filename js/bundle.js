@@ -45,8 +45,8 @@ var Header = React.createClass({displayName: "Header",
 var LocateButton = React.createClass({displayName: "LocateButton",
   render: function() {
     return (
-      React.createElement("div", {className: "footer-button"}, 
-        React.createElement("span", {onClick: this.props.locate, onTouchEnd: this.props.locate}, 
+      React.createElement("div", {className: "footer-button", onClick: this.props.locate, onTouchEnd: this.props.locate}, 
+        React.createElement("span", null, 
           React.createElement("i", {className: "fa fa-location-arrow"})
         )
       )
@@ -62,13 +62,19 @@ var Footer = React.createClass({displayName: "Footer",
     }
     return (
       React.createElement("div", {className: "page-footer"}, 
-        React.createElement("div", {className: "footer-button"}, 
-          React.createElement(Link, {to: "siteList", params: {categoryName: this.props.category}}, React.createElement("i", {className: "fa fa-list"}))
-        ), 
-        React.createElement("div", {className: "footer-button"}, 
-          React.createElement(Link, {to: "siteMap", params: {categoryName: this.props.category}}, React.createElement("i", {className: "fa fa-map-marker"}))
-        ), 
-        locateButton
+        React.createElement("div", {className: "footer-tools"}, 
+        React.createElement(Link, {to: "siteList", params: {categoryName: this.props.category}}, 
+          React.createElement("div", {className: "footer-button"}, 
+            React.createElement("i", {className: "fa fa-list"})
+          )
+          ), 
+          React.createElement(Link, {to: "siteMap", params: {categoryName: this.props.category}}, 
+          React.createElement("div", {className: "footer-button"}, 
+            React.createElement("i", {className: "fa fa-map-marker"})
+          )
+          ), 
+          locateButton
+        )
       )
     )
   }

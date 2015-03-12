@@ -44,8 +44,8 @@ var Header = React.createClass({
 var LocateButton = React.createClass({
   render: function() {
     return (
-      <div className="footer-button">
-        <span onClick={this.props.locate} onTouchEnd={this.props.locate}>
+      <div className="footer-button" onClick={this.props.locate} onTouchEnd={this.props.locate}>
+        <span>
           <i className="fa fa-location-arrow"></i>
         </span>
       </div>
@@ -61,13 +61,19 @@ var Footer = React.createClass({
     }
     return (
       <div className="page-footer">
-        <div className="footer-button">
-          <Link to="siteList" params={{categoryName: this.props.category}}><i className="fa fa-list"></i></Link>
+        <div className="footer-tools">
+        <Link to="siteList" params={{categoryName: this.props.category}}>
+          <div className="footer-button">
+            <i className="fa fa-list"></i>
+          </div>
+          </Link>
+          <Link to="siteMap" params={{categoryName: this.props.category}}>
+          <div className="footer-button">
+            <i className="fa fa-map-marker"></i>
+          </div>
+          </Link>
+          {locateButton}
         </div>
-        <div className="footer-button">
-          <Link to="siteMap" params={{categoryName: this.props.category}}><i className="fa fa-map-marker"></i></Link>
-        </div>
-        {locateButton}
       </div>
     )
   }
