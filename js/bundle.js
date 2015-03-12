@@ -16,11 +16,13 @@ React.initializeTouchEvents(true)
 
 var key = '1AS60Zm5ytMoOI3AhvR0dcOF-G_3j2lpZR7VRBAzfBgE'
 
-var sheet = Tabletop.init({
-  key: key,
-  callback: init,
-  simpleSheet: true
-})
+// var sheet = Tabletop.init({
+//   key: key,
+//   callback: init,
+//   simpleSheet: true
+// })
+
+var data = [{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #1","category":"Maryland Historical Trust","location":"38,-76","rowNumber":1},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #2","category":"Maryland Historical Trust","location":"38.1,-76","rowNumber":2},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #3","category":"Maryland Historical Trust","location":"38.2,-76.3","rowNumber":3},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #4","category":"Maryland Historical Trust","location":"38.3,-76","rowNumber":4},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #5","category":"Maryland Historical Trust","location":"38.4,-76","rowNumber":5},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #6","category":"Maryland Historical Trust","location":"38.5,-76","rowNumber":6},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #7","category":"Maryland Historical Trust","location":"38.6,-76","rowNumber":7},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #8","category":"Maryland Historical Trust","location":"38.7,-76","rowNumber":8},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #9","category":"Maryland Historical Trust","location":"38.8,-76","rowNumber":9},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #10","category":"Points of Interest","location":"38,-76","rowNumber":10},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #11","category":"Public Water Access","location":"38,-76","rowNumber":11},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #12","category":"Hiker and Biker Trails","location":"38,-76","rowNumber":12},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #13","category":"Greenways","location":"38,-76","rowNumber":13},{"image":"http://apps.esrgc.org/scenicbyway/img/300.gif","name":"Site #1","category":"Water Trails","location":"38,-76","rowNumber":14}]
 
 function init(data, tabletop) {
   Router.run(routes, function (Handler) {
@@ -75,8 +77,7 @@ var Footer = React.createClass({displayName: "Footer",
 var Site = React.createClass({displayName: "Site",
   mixins: [Router.State, Router.Navigation],
   back: function() {
-    this.goBack()
-    //window.history.back()
+    window.history.back()
   },
   render: function() {
     var id = +this.getParams().siteID
@@ -122,16 +123,8 @@ var SiteList = React.createClass({displayName: "SiteList",
   }
 })
 
-var Popup = React.createClass({displayName: "Popup",
-  render: function() {
-    var p = {siteID: this.props.site.idx}
-    //return <div><p>{this.props.site.name}</p><p><Link to="siteID" params={p}>More Information</Link></p></div>
-    return React.createElement("div", null, React.createElement("p", null, this.props.site.name), React.createElement("p", null, React.createElement("a", {href: '/scenicbyway/#/site/' + this.props.site.idx}, "More Information")))
-  }
-})
-
 var SiteMap = React.createClass({displayName: "SiteMap",
-  mixins: [Router.State],
+  mixins: [Router.State, Router.Navigation],
   componentDidMount: function() {
     this.createMap()
   },
@@ -147,7 +140,10 @@ var SiteMap = React.createClass({displayName: "SiteMap",
         var coords = site.location.split(',').map(Number)
         var marker = L.marker(coords)
         var p = {siteID: site.idx}
-        marker.bindPopup(React.renderToString(React.createElement(Popup, {site: site})))
+        var a = self.makeHref('siteID', p)
+        var popup = React.renderToString(React.createElement("div", null, React.createElement("p", null, site.name), React.createElement("p", null, React.createElement("a", {href: a}, "More Information"))))
+        marker.bindPopup(popup)
+        //marker.bindPopup(React.renderToString(<div><p>{site.name}</p><p><Link to="siteID" params={p}>More Information</Link></p></div>))
         self.siteLayer.addLayer(marker)
       }
     })
@@ -217,8 +213,8 @@ var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: App}, 
     React.createElement(Route, {name: "home", handler: Home}), 
     React.createElement(Route, {name: "category", handler: App}, 
-      React.createElement(Route, {name: "siteMap", path: "category/map/:categoryName", handler: SiteMap}), 
-      React.createElement(Route, {name: "siteList", path: "category/list/:categoryName", handler: SiteList})
+      React.createElement(Route, {name: "siteMap", path: "map/:categoryName", handler: SiteMap}), 
+      React.createElement(Route, {name: "siteList", path: "list/:categoryName", handler: SiteList})
     ), 
     React.createElement(Route, {name: "site", handler: Site}, 
       React.createElement(Route, {name: "siteID", path: ":siteID", handler: Site})
@@ -226,6 +222,8 @@ var routes = (
     React.createElement(DefaultRoute, {handler: Home})
   )
 )
+
+init(data, null)
 
 },{"lodash":3,"react":190,"react-router":31}],2:[function(require,module,exports){
 // shim for using process in browser
