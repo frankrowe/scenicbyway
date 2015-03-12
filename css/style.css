@@ -6583,15 +6583,18 @@ body {
   overflow: hidden;
   margin: 0 auto;
   display: inline-block;
-  border-left: 1px solid #116819;
+  border-left: 1px solid #0d5214;
 }
 .page .page-footer .footer-tools a {
   color: white;
 }
+.page .page-footer .footer-tools a.active .footer-button {
+  background: #116819;
+}
 .page .page-footer .footer-button {
   height: 100%;
   width: 50px;
-  border-right: 1px solid #116819;
+  border-right: 1px solid #0d5214;
   font-size: 24px;
   line-height: 50px;
   float: left;

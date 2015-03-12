@@ -82,21 +82,27 @@ var Footer = React.createClass({displayName: "Footer",
 
 var Site = React.createClass({displayName: "Site",
   mixins: [Router.State, Router.Navigation],
-  back: function() {
-    window.history.back()
+  back: function(e) {
+    e.preventDefault()
+    if (!this.goBack()) {
+      this.transitionTo('siteMap', {categoryName: this.site.category})
+    } else {
+      this.goBack()
+    }
   },
   render: function() {
     var id = +this.getParams().siteID
-    var site =  this.props.data[id]
+    this.site =  this.props.data[id]
+    var p = {categoryName: this.site.category}
     return (
       React.createElement("div", {className: "site-details page"}, 
         React.createElement("div", {className: "page-title"}, 
-          React.createElement("span", {className: "home-button", onClick: this.back, onTouchEnd: this.back}, React.createElement("i", {className: "fa fa-arrow-left"})), 
+          React.createElement(Link, {to: "siteMap", params: p, onClick: this.back}, React.createElement("span", {className: "home-button"}, React.createElement("i", {className: "fa fa-arrow-left"}))), 
           React.createElement("h3", null, "Site Details")
         ), 
         React.createElement("div", {className: "page-inner"}, 
-          React.createElement("p", null, "Site Name: ", site.name), 
-          React.createElement("img", {className: "img-responsive", src: site.image})
+          React.createElement("p", null, "Site Name: ", this.site.name), 
+          React.createElement("img", {className: "img-responsive", src: this.site.image})
         )
       )
     )

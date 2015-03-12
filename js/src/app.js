@@ -81,21 +81,27 @@ var Footer = React.createClass({
 
 var Site = React.createClass({
   mixins: [Router.State, Router.Navigation],
-  back: function() {
-    window.history.back()
+  back: function(e) {
+    e.preventDefault()
+    if (!this.goBack()) {
+      this.transitionTo('siteMap', {categoryName: this.site.category})
+    } else {
+      this.goBack()
+    }
   },
   render: function() {
     var id = +this.getParams().siteID
-    var site =  this.props.data[id]
+    this.site =  this.props.data[id]
+    var p = {categoryName: this.site.category}
     return (
       <div className="site-details page">
         <div className="page-title">
-          <span className="home-button" onClick={this.back} onTouchEnd={this.back}><i className="fa fa-arrow-left"></i></span>
+          <Link to="siteMap" params={p} onClick={this.back}><span className="home-button"><i className="fa fa-arrow-left"></i></span></Link>
           <h3>Site Details</h3>
         </div>
         <div className="page-inner">
-          <p>Site Name: {site.name}</p>
-          <img className="img-responsive" src={site.image} />
+          <p>Site Name: {this.site.name}</p>
+          <img className="img-responsive" src={this.site.image} />
         </div>
       </div>
     )
