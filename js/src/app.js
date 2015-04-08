@@ -16,11 +16,11 @@ React.initializeTouchEvents(true)
 
 var key = '1AS60Zm5ytMoOI3AhvR0dcOF-G_3j2lpZR7VRBAzfBgE'
 
-// var sheet = Tabletop.init({
-//   key: key,
-//   callback: init,
-//   simpleSheet: true
-// })
+var sheet = Tabletop.init({
+  key: key,
+  callback: init,
+  simpleSheet: true
+})
 
 var data = [
   {
@@ -392,6 +392,7 @@ var data = [
 function init(data, tabletop) {
   //console.log(JSON.stringify(data))
   Router.run(routes, function (Handler) {
+    console.log(data)
     React.render(<Handler data={data}/>, document.getElementById('app'))
   })
 }
@@ -619,4 +620,4 @@ var routes = (
   </Route>
 )
 
-init(data, null)
+//init(data, null)
