@@ -221,7 +221,8 @@ var CategoryList = React.createClass({displayName: "CategoryList",
 
 var Home = React.createClass({displayName: "Home",
   render: function() {
-    var categories = _.uniq(_.pluck(this.props.data, 'category'))
+    var categories = _.pluck(this.props.data, 'category')
+    categories = _.uniq(categories.map(function(c) { return c.trim() }))
     return (
       React.createElement("div", {className: "home page"}, 
         React.createElement(Header, null), 

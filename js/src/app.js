@@ -220,7 +220,8 @@ var CategoryList = React.createClass({
 
 var Home = React.createClass({
   render: function() {
-    var categories = _.uniq(_.pluck(this.props.data, 'category'))
+    var categories = _.pluck(this.props.data, 'category')
+    categories = _.uniq(categories.map(function(c) { return c.trim() }))
     return (
       <div className="home page">
         <Header />
